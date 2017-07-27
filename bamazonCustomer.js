@@ -33,11 +33,11 @@ function buyItem(){
         inquirer.prompt([
             {
                 type: "input",
-                message: "What item would you liek to purchase?",
+                message: "What item would you like to purchase?",
                 name: "item",
                 validate: function(item){
                     for(var i = 0; i < res.length; i++){
-                        if(items == res[i].item_id){
+                        if(item == res[i].item_id){
                             return true;
                         }
                     }
@@ -51,8 +51,8 @@ function buyItem(){
                 message: "How many are being purchase?",
                 name: "quantity",
                 validate: function(amount){
-                    var results = amount % 1
-                        if(quantity > 0 && result == 0){
+                    var results = amount % 1;
+                        if(amount > 0 && results == 0){
                             return true;
                         }else{
                             return "please enter vaild amount";
@@ -63,14 +63,14 @@ function buyItem(){
             
         ]).then(function(response){
             var chosenItem = response.item;
-            var chosenAmount = response.quantity;
+            var chosenAmount = response.amount;
             updateProduct(chosenItem, chosenAmount);
         })       
     })        
 }
 
 
-        function updateProduct(item, quantity){
+        function updateProduct(item, amount){
             var query1 = "SELECT stock_quantity FROM products WHERE item_id = " + item;
             var query2 = "UPDATE products SET stock_quantity = stock_quantity - " + quantity + " WHERE item_id = " + item;
             connection.query(query1, function(error, response){
@@ -86,7 +86,7 @@ function buyItem(){
             })
         }
 
-                function totalCost(item, quantity){
+                function totalCost(item, amount){
                     var totalCost = 0;
                     var query = "SELECT price FROM products WHERE item_id = " + item;
                     connection.query(query, function(err, res){
