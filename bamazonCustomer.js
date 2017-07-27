@@ -27,7 +27,7 @@ function showItems(){
 }
 
 function buyItem(){
-    var query = "SELECT item_id, stock_quantity FROM products" connection.query(query, function(err, res){
+    var query = "SELECT item_id, stock_quantity FROM products"; connection.query(query, function(err, res){
         if(err) throw err;
         
         inquirer.prompt([
@@ -50,8 +50,8 @@ function buyItem(){
                 type: "input",
                 message: "How many are being purchase?",
                 name: "quantity",
-                validate: function(quantity){
-                    var results = (quantity){
+                validate: function(amount){
+                    var results = amount % 1
                         if(quantity > 0 && result == 0){
                             return true;
                         }else{
@@ -59,7 +59,7 @@ function buyItem(){
                         }
                     }
                 }
-            },
+            
             
         ]).then(function(response){
             var chosenItem = response.item;
@@ -68,6 +68,7 @@ function buyItem(){
         })       
     })        
 }
+
 
         function updateProduct(item, quantity){
             var query1 = "SELECT stock_quantity FROM products WHERE item_id = " + item;
@@ -91,7 +92,7 @@ function buyItem(){
                     connection.query(query, function(err, res){
                         totalCost = res[0].price * quantity;
                         console.log("Price per item: " + res[0].price);
-                        console.log("Quantity purchased: " + quantity);
+                        console.log("Amount purchased: " + quantity);
                         console.log("Total: " + totalCost);
                     })
                 }
